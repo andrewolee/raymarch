@@ -55,8 +55,10 @@ vec3 render(vec3 ro, vec3 rd, vec3 lp) {
     vec3 ld = normalize(lp - p);
 
     float dif = max(0.0, dot(sn, ld));
+    float spec = 2.0 * pow(max(0.0, dot(reflect(-ld, sn), -rd)), 8.0);
+    float fog = smoothstep(1.0, 0.0, co.sd / FAR);
 
-    return co.col * dif;
+    return co.col * (dif + spec) * fog;
 }
 
 void main() {
